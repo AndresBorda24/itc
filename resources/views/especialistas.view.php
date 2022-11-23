@@ -16,7 +16,11 @@
     <h1 class="text-center text-secondary h3">Solicitudes Interconsulta</h1>
     <?php require __DIR__ . "/components/select-especialidad.php" ?>
 
-    <div id="button-container" class="sticky-top"></div>
+    <div id="button-container" class="sticky-top">
+      <a x-data 
+        :href="'<?= \App\App::config("project_path") ?>' + `/esp/reunion/${$store.selectedEsp ? $store.selectedEsp.toLowerCase() : ''}`" 
+        class="btn btn-sm btn-dark m-2">Ir a la reunion</a>
+    </div>
 
     <div class="p-2 container m-auto">
       <div x-data="listIntercosultas">

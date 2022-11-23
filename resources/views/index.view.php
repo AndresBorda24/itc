@@ -18,65 +18,49 @@
     <h1 class="text-center text-secondary h3">Listado de Interconsultas</h1>
     <?php require __DIR__ . "/components/select-especialidad.php" ?>
 
-    <div id="button-container"></div>
+    <div id="button-container" class="sticky-top">
+      <a x-data 
+        :href="'<?= \App\App::config("project_path") ?>' + `/urg/reunion/${$store.selectedEsp ? $store.selectedEsp.toLowerCase() : ''}`" 
+        class="btn btn-sm btn-dark m-2">Reunion</a>
+    </div>
+
     <div class="p-2 container m-auto">
-      <div x-data="listInterconsultas">
-        <template x-for="[cod, int] in Object.entries($store.interconsultas)" :key="cod">
-          <div class="mb-3" x-data="{ show: false }">
-            <div class="position-relative">
-              <h4 @click="show = !show" class="w-100 m-0" style="height: 60px;">
-                <span x-text="int.nombre"></span>
-                <span>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" 
-                  height="16" :style="show && { transform: 'rotate(180deg)' }" 
-                  fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
-                    <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
-                  </svg>
-                </span>
-              </h4>
-              <a class="btn btn-sm btn-dark d-block position-absolute bottom-0 start-0" style="z-index: 5;" 
-                :href="'<?= \App\App::config('project_path') ?>/urg/reunion/'+int.esp_cod">Reuni&oacute;n</a>
-            </div>
-            <!-- Listado de interconsultas para la especialidad [cod] -->
-            <div x-collapse.duration.300ms x-show="show" style="display: none;">
-              <template x-for="i in sortInterconsultasByEstado(int.i)" :key="i.id">
-                <!-- 
-                  Informacion de la interconsulta
-                -->
-                <div 
-                  :class="{ 'text-decoration-line-through text-muted bg-secondary bg-opacity-25': (i.estado != 'PENDIENTE') }"
-                  class="small rounded shadow-sm border my-3" style="background-color: white;">
-                  <!-- Paciente -->
-                  <div class="pb-1 p-3 mb-sm-0">
-                    <span class="small d-block">Paciente:</span>
-                    <span class="fw-semibold" x-text="i.paciente.nombre"></span> |
-                    <span x-text="i.paciente.documento"></span> |
-                    <span class="fw-semibold" x-text="i.paciente.edad"></span> A&ntilde;os
+      <div x-data="listInterconsultas" class="d-grid" style="grid-template-columns: repeat(auto-fill, minmax(450px, 1fr)); grid-gap: 1rem;">
+        <template x-for="int in sortInterconsultasByEstado($store._interconsultas)" :key="int.id">
+          <!-- Listado de interconsultas -->
+          <div 
+            class="small rounded border-bottom border-5" :class="getClass(int.estado)" style="background-color: white;">
+            <!-- Paciente -->
+            <div class="d-grid p-1 border-bottom border-secondary border-1 mb-2" style="grid-template-columns: 1fr 1fr;">
+              <div class="p-2 border-end border-1 border-secondary">
+                <span class="small d-block">Paciente:</span >
+                <span class="fw-semibold d-block" x-text="int.paciente.nombre"></span> 
+                <span class="d-block py-2" x-text="int.paciente.documento"></span> 
+                <span class="fw-semibold" x-text="int.paciente.edad"></span> A&ntilde;os
+              </div>
+              <div class="p-2">
+                <span class="small d-block">Solicitado por:</span>
+                <span class="fw-semibold" x-text="int.nombre_medico"></span>
+                <template x-if="int.estado != 'PENDIENTE'">
+                  <div class="pt-2">
+                    <span class="small d-block">Atendida el:</span>
+                    <span class="fw-semibold" x-text="today"></span>
                   </div>
-                  <hr class="d-sm-none">
-                  <!-- Interconsulta -->
-                  <div class="pt-1 p-3">
-                    <span class="small d-block">Fecha:</span>
-                    <span class="fw-semibold" x-text="new Date(i.fecha).toLocaleString()"></span>
-                    <hr class="my-2">
-                    <span class="fw-semibold">Observaci&oacute;n:</span><br>
-                    <span x-text="i.observacion" style="white-space:pre-line;"></span>
-                    <hr class="my-2">
-                    <span class="small d-block">Estado:</span>
-                    <span class="fw-semibold" x-text="i.estado"></span>
-                    <span class="small d-block pt-2">Solicitado por:</span>
-                    <span class="fw-semibold" x-text="i.nombre_medico"></span>
-                    <template x-if="i.estado != 'PENDIENTE'">
-                      <div class="pt-2">
-                        <span class="small d-block">Atendida el:</span>
-                        <span class="fw-semibold" x-text="$data.today"></span>
-                      </div>
-                    </template>
-                  </div>
-                </div>
-              </template>
+                </template>
+              </div>
             </div>
-            <hr>
+            <!-- Interconsulta -->
+            <div class="pt-1 p-3">
+              <span class="small">Fecha:</span>
+              <span class="fw-semibold" x-text="new Date(int.fecha).toLocaleString()"></span>
+              &emsp; - &emsp;
+              <span class="small">Estado:</span>
+              <span class="fw-semibold" x-text="int.estado"></span>
+
+              <hr class="my-2">
+              <span class="fw-semibold">Observaci&oacute;n:</span><br>
+              <span x-text="int.observacion" style="white-space:pre-line;"></span>
+            </div>
           </div>
         </template>
       </div>

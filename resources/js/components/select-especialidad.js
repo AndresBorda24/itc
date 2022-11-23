@@ -4,9 +4,11 @@ export default ( especialidades ) => ({
     esp: "",
     especialidades: especialidades,
     init() {
-        this.$watch("esp", () => this.getInterconsultas());
+        this.$watch("esp", ( value ) => {
+            this.getInterconsultas();
+            Alpine.store("selectedEsp", value);
+        });
         this.esp = Object.keys(this.especialidades)[0];
-        Alpine.store("selected-esp", this.esp)
     },
     async getInterconsultas(){
         try {

@@ -25,7 +25,7 @@
     </div>
 
     <div class="p-2 container m-auto">
-      <div x-data="listInterconsultas" class="d-grid" style="grid-template-columns: repeat(auto-fill, minmax(450px, 1fr)); grid-gap: 1rem;">
+      <div x-data="listInterconsultas" class="d-grid" style="grid-template-columns: repeat(auto-fill, minmax(450px, 1fr)); grid-gap: 2rem;">
         <template x-for="int in sortInterconsultasByEstado($store._interconsultas)" :key="int.id">
           <!-- Listado de interconsultas -->
           <div 

@@ -14,12 +14,14 @@ class MeetingController
 				throw new \RuntimeException("Especialidad No encontrada.");
 			}
 			$ms = new ManageMeetingService($espId);
-
-            View::load($view, [ 
+			$datos = [ 
+				"apiKey" => \App\App::config("opentok")["API_KEY"],
             	"especialidad" => $espCod,
-            	"session_id" => $ms->getSessionId(),
+            	"sessionId" => $ms->getSessionId(),
             	"token" => $ms->getToken(),
-            ]);
+            ];
+
+            View::load($view, $datos);
         } catch (\Throwable $e) {
             View::error($e);
         }

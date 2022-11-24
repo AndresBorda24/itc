@@ -6,6 +6,8 @@ window.Alpine = Alpine;
 $(document).on("alpine:init", function () {
     Alpine.store("loader", $("#loader"));
     Alpine.store("_interconsultas", []);
+    /* Esta es para redireccionar al finalizar la reunion */
+    Alpine.store("__url", apiUrl.substring(0, apiUrl.length - 4))
 
     Alpine.data("pacientes", (esp) => ({
         esp: esp,

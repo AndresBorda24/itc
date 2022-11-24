@@ -27,7 +27,7 @@
       <!--
        Radio Inputs de los estados 
       -->
-      <template x-if="! especialista">
+      <!-- <template x-if="! especialista"> -->
         <div class="d-flex rounded border px-sm-4 justify-content-between p-2 flex-wrap small">
           <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" value="REVISADO" @input="_estado = $el.value" x-model.debounce.400ms="state.estado" :name="`${state.id}`" :id="`rev-${state.id}`">
@@ -42,7 +42,7 @@
             <label class="form-check-label small" :for="`can-${state.id}`">CANCELADO</label>
           </div>
         </div>
-      </template>
+      <!-- </template> -->
 
       <div :class="{ 'text-muted bg-secondary text-decoration-line-through bg-opacity-10': _estado != 'PENDIENTE' }"
         class="border bg-white rounded mt-1 small mb-4 user-select-none p-3" >

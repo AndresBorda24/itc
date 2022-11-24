@@ -1,6 +1,6 @@
 "use strict";
+var session;
 var __publisher;
-
 initializeSession();
 
 function toggleFullScreen() {
@@ -15,16 +15,9 @@ function toggleFullScreen() {
 	}
 }
 
-function handleError(error) {
-	if (error) {
-		alert(error.message);
-	}
-}
-
 function initializeSession() {
-	var session = OT.initSession(apiKey, sessionId);
+	 session = OT.initSession(apiKey, sessionId);
 
-	// Subscribe to a newly created stream
 	session.on('streamCreated', function(event) {
 		session.subscribe(event.stream, 'subscriber', {
 			insertMode: especialista ? "replace" : "append",
@@ -34,7 +27,6 @@ function initializeSession() {
 		}, handleError);
 	});
 
-	// Create a publisher
 	const publisherOptions = especialista ? {
 		publishVideo:false,
 		publishAudio:true,
@@ -45,22 +37,35 @@ function initializeSession() {
 		height: "100%",
 		width: "100%",
 	};
-	var publisher = OT.initPublisher('publisher', publisherOptions, handleError);
+	__publisher = OT.initPublisher('publisher', publisherOptions, handleError);
 
-	// Connect to the session
 	session.connect(token, function(error) {
-		// If the connection is successful, initialize a publisher and publish to the session
 		if (error) {
-		  	handleError(error);
+			handleError(error); 
 		} else {
-		  	__publisher = session.publish(publisher, handleError);
+		  	 session.publish(__publisher, handleError);
 		}
 
 	});
-}
+} 
 
-function toggleCamera() 
-{
+function toggleCamera() {
 	__publisher.cycleVideo();
 }
 
+function disconnectSession() {
+	$("#loader").toggle();
+	setTimeout(() => {
+		if (session) {
+ 			session.disconnect();
+ 		}
+		const url =  `${Alpine.store('__url')}/${ especialista ? 'esp' : 'urg'}`;
+		window.location.replace(url);
+	}, 1000);	
+}
+
+function handleError(error) {
+	if (error) {
+		alert(error.message);
+	}
+}

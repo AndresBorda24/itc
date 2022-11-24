@@ -11,6 +11,7 @@
 </head>
 <body>
   <?php require __DIR__ . "/../partials/loader.php" ?>
+
   <main class="bg-dark p-3 position-relative d-flex" style="min-height: 100vh;">
     <!-- Aqui debe ir incrustada la reunion -->
     <div class="rounded-1 flex flex-grow-1 position-relative overflow-auto" id="zoom-arenn">
@@ -25,7 +26,8 @@
       </div>
 
       <!-- Botones Cambiar camara | pantalla Completa -->
-      <div class="position-absolute end-0 top-0 p-2 d-flex justify-content-around flex-column-reverse h-25 mt-5" id="button-container" style="width: 50px;">
+      <div class="position-absolute end-0 top-0 p-2 d-flex justify-content-around flex-column-reverse h-50 mt-5" id="button-container" style="width: 50px; z-index: 1;">
+        <!-- Pantalla completa -->
         <button class="btn btn-sm btn-primary p-2 pt-1" onclick="toggleFullScreen()">
           <!-- Fullscreen Icon -->
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrows-fullscreen" id="fullscreen-i" viewBox="0 0 16 16"> 
@@ -36,11 +38,20 @@
             <path d="M5.5 0a.5.5 0 0 1 .5.5v4A1.5 1.5 0 0 1 4.5 6h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5zm5 0a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 10 4.5v-4a.5.5 0 0 1 .5-.5zM0 10.5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 6 11.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5zm10 1a1.5 1.5 0 0 1 1.5-1.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4z"/>
           </svg>
         </button>
+
+        <!-- Camara -->
         <button class="btn btn-warning btn-sm p-2 pt-1" onclick="toggleCamera()">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-camera-fill" viewBox="0 0 16 16">
             <path d="M10.5 8.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
             <path d="M2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4H2zm.5 2a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm9 2.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0z"/>
           </svg>
+        </button>
+
+        <!-- Desconectar -->
+        <button class="btn btn-danger btn-sm p-2 pt-1" onclick="disconnectSession()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-x-fill" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511zm9.261 1.135a.5.5 0 0 1 .708 0L13 2.793l1.146-1.147a.5.5 0 0 1 .708.708L13.707 3.5l1.147 1.146a.5.5 0 0 1-.708.708L13 4.207l-1.146 1.147a.5.5 0 0 1-.708-.708L12.293 3.5l-1.147-1.146a.5.5 0 0 1 0-.708z"/>
+          </svg> 
         </button>
       </div>
     </div>
@@ -56,16 +67,16 @@
       </div>
     </div>
   </main>
-  
+
   <?php require __DIR__ . "/../components/meeting/show-pacientes.php" ?>
-  <script src="<?= \App\Helpers\Assets::load("libs/jquery/jquery.js") ?>"></script>  
-  <script type="module" src="<?= \App\Helpers\Assets::load("js/meeting-esp.js") ?>"></script>
-  <script>
+  <script type="text/javascript">
     var token        = "<?= $token ?>";
-    var apiKey       = "<?= \App\App::config("opentok")["API_KEY"] ?>";
-    var sessionId    = "<?= $session_id ?>";
+    var apiKey       = "<?= $apiKey ?>";
+    var sessionId    = "<?= $sessionId ?>";
     var especialista = false;
   </script>
-  <script src="<?= \App\Helpers\Assets::load("js/scripts/meeting.js") ?>"></script>
+  <script src="<?= \App\Helpers\Assets::load("libs/jquery/jquery.js") ?>"></script>  
+  <script src="<?= \App\Helpers\Assets::load("js/scripts/meeting.js") ?>"></script>  
+  <script type="module" src="<?= \App\Helpers\Assets::load("js/meeting-esp.js") ?>"></script>
 </body>
 </html>

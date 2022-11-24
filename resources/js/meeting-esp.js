@@ -44,7 +44,7 @@ $(document).on("alpine:init", function () {
         },
         manageShow() {
             $("body").toggleClass("overflow-hidden");
-            this.modal.fadeToggle("fast");
+            this.modal.toggle();
         },
         async getInterconsultas() {
             try {

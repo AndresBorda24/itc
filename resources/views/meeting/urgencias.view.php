@@ -10,6 +10,7 @@
   <title>Reunion</title>
 </head>
 <body>
+  <?php require __DIR__ . "/../partials/loader.php" ?>
   <main class="bg-dark p-3 position-relative d-flex" style="min-height: 100vh;">
     <!-- Aqui debe ir incrustada la reunion -->
     <div class="rounded-1 flex flex-grow-1 position-relative overflow-auto" id="zoom-arenn">
@@ -24,7 +25,7 @@
       </div>
 
       <!-- Botones Cambiar camara | pantalla Completa -->
-      <div class="position-absolute end-0 top-0 p-2 d-flex justify-content-around flex-column-reverse h-25 mt-5" style="width: 50px;">
+      <div class="position-absolute end-0 top-0 p-2 d-flex justify-content-around flex-column-reverse h-25 mt-5" id="button-container" style="width: 50px;">
         <button class="btn btn-sm btn-primary p-2 pt-1" onclick="toggleFullScreen()">
           <!-- Fullscreen Icon -->
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrows-fullscreen" id="fullscreen-i" viewBox="0 0 16 16"> 
@@ -56,7 +57,9 @@
     </div>
   </main>
   
+  <?php require __DIR__ . "/../components/meeting/show-pacientes.php" ?>
   <script src="<?= \App\Helpers\Assets::load("libs/jquery/jquery.js") ?>"></script>  
+  <script type="module" src="<?= \App\Helpers\Assets::load("js/meeting-esp.js") ?>"></script>
   <script>
     var token        = "<?= $token ?>";
     var apiKey       = "<?= \App\App::config("opentok")["API_KEY"] ?>";

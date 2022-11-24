@@ -1,7 +1,9 @@
-<div 
+<div  
   id="mostrar-pacientes"
   x-data="pacientes('<?= strtoupper($especialidad ) ?>')"
-  class="fixed-top bg-black bg-opacity-50 vh-100 vw-100" style="display: none;">
+  class="h-100 position-fixed top-0 end-0 bg-light p-3 overflow-auto border-start border-secondary border-3" 
+  style="width: 95%; max-width: 500px; display: none; z-index: 3;">
+
   <template x-teleport="#button-container">
     <button class="btn btn-sm p-2 pt-1 btn-warning" @click="manageShow()">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid-fill" viewBox="0 0 16 16">
@@ -10,21 +12,22 @@
     </button>
   </template>
 
-  <button class="btn btn-sm btn-close position-fixed fs-4 bg-light top-0 start-0 m-3" @click="manageShow()"></button>
-  <div class="d-block h-100 bg-light p-3 ms-auto overflow-auto" style="width: 95%; max-width: 500px">
-    <div class="p-2 mb-4 rounded text-light bg-dark shadow sticky-top">
-      <h3 class="text-center">Listado de Pacientes</h3>
-      <div class="form-check">
-        <input class="form-check-input" x-model="onlyPend" type="checkbox" id="show-solo-pendientes">
-        <label class="form-check-label small fst-italic" for="show-solo-pendientes">Solo Pendientes</label>
-      </div>
-    </div>
+  <button class="btn btn-sm d-block ms-auto btn-close border border-dark m-1 p-2 sticky-top bg-white" @click="manageShow()"></button>
 
-    <template x-for="int in manageSort($store._interconsultas)" :key="int.id">
-      <div x-data="{ state: int, _estado: int.estado+'' }">
-        <!--
-         Radio Inputs de los estados 
-        -->
+  <div class="p-2 mb-4 rounded text-light bg-dark">
+    <h3 class="text-center">Listado de Pacientes</h3>
+    <div class="form-check">
+      <input class="form-check-input" x-model="onlyPend" type="checkbox" id="show-solo-pendientes">
+      <label class="form-check-label small fst-italic" for="show-solo-pendientes">Solo Pendientes</label>
+    </div>
+  </div>
+
+  <template x-for="int in manageSort($store._interconsultas)" :key="int.id">
+    <div x-data="{ state: int, _estado: int.estado+'' }" class="border-1">
+      <!--
+       Radio Inputs de los estados 
+      -->
+      <template x-if="! especialista">
         <div class="d-flex rounded border px-sm-4 justify-content-between p-2 flex-wrap small">
           <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" value="REVISADO" @input="_estado = $el.value" x-model.debounce.400ms="state.estado" :name="`${state.id}`" :id="`rev-${state.id}`">
@@ -39,24 +42,25 @@
             <label class="form-check-label small" :for="`can-${state.id}`">CANCELADO</label>
           </div>
         </div>
-        <div :class="{ 'text-muted bg-secondary text-decoration-line-through bg-opacity-10': _estado != 'PENDIENTE' }"
-          class="border rounded mt-1 small mb-4 shadow user-select-none p-3" >
-          <span class="small d-block">Paciente:</span>
-          <span class="fw-semibold" x-text="int.paciente.nombre"></span>
-          <span class="small d-block mt-2">Edad:</span>
-          <span class="fw-semibold" x-text="int.paciente.edad"></span> A&ntilde;os
-          <hr class="my-2">
-          <span class="fw-semibold">Observaci&oacute;n:</span><br>
-          <span x-text="int.observacion" style="white-space: pre-line;"></span>
-          <template x-if="state.estado != 'PENDIENTE'">
-           <div>
-            <hr>
-            <span class="small d-block mt-2">Resuelto en:</span>
-            <span x-text="today" style="white-space: pre-line;"></span>
-           </div> 
-          </template>
-        </div>
+      </template>
+
+      <div :class="{ 'text-muted bg-secondary text-decoration-line-through bg-opacity-10': _estado != 'PENDIENTE' }"
+        class="border bg-white rounded mt-1 small mb-4 user-select-none p-3" >
+        <span class="small d-block">Paciente:</span>
+        <span class="fw-semibold" x-text="int.paciente.nombre"></span>
+        <span class="small d-block mt-2">Edad:</span>
+        <span class="fw-semibold" x-text="int.paciente.edad"></span> A&ntilde;os
+        <hr class="my-2">
+        <span class="fw-semibold">Observaci&oacute;n:</span><br>
+        <span x-text="int.observacion" style="white-space: pre-line;"></span>
+        <template x-if="state.estado != 'PENDIENTE'">
+         <div>
+          <hr>
+          <span class="small d-block mt-2">Resuelto en:</span>
+          <span x-text="today" style="white-space: pre-line;"></span>
+         </div> 
+        </template>
       </div>
-    </template>
-  </div>
+    </div>
+  </template>
 </div>

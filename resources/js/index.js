@@ -10,6 +10,8 @@ $(document).on("alpine:init", function() {
     Alpine.data("selectEspecialidad", selectEspecialidad);
     
     Alpine.data("listInterconsultas", () => ({
+        justPend: true,
+        types: ["PENDIENTE"],
         today: new Date().toLocaleDateString('es-CO', { 
             weekday: 'long',
             year: 'numeric', 
@@ -19,8 +21,11 @@ $(document).on("alpine:init", function() {
         /**  @param {array} int */
         sortInterconsultasByEstado( int ){
             const t = { "PENDIENTE": 1, "REVISADO": 2, "CANCELADO": 3 };
-            return int.sort((i, y) => t[ i.estado ] - t[ y.estado ]);
+            return int
+                .filter( el => this.types.includes(el.estado) )
+                .sort((i, y) => t[ i.estado ] - t[ y.estado ]);
         },
+        /** @param {string} estado */
         getClass( estado ){
             switch( estado ){ 
                 case "PENDIENTE": 
@@ -31,7 +36,7 @@ $(document).on("alpine:init", function() {
                 default:
                     return "bg-success bg-opacity-25 border-success shadow-sm";
             }
-        }
+        },
     }));
 });
 

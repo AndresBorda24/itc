@@ -21,14 +21,14 @@ $router->get("/ex", function() {
     \App\Helpers\Response::json($e);
 });
 // Especialista
-$router->get("/esp", "EspecialistasController@index");
+$router->get("/esp", fn() => (new \App\Controllers\IndexController)->index(true));
 $router->get(
     "/esp/reunion/(\w+)", 
     fn(string $esp) => (new \App\Controllers\MeetingController)->index($esp, "meeting/especialista") 
 );
 
 // Urgencias
-$router->get("/urg", "IndexController@index");
+$router->get("/urg", fn() => (new \App\Controllers\IndexController)->index(false));
 $router->get(
     "/urg/reunion/(\w+)", 
     fn(string $esp) => (new \App\Controllers\MeetingController)->index($esp, "meeting/urgencias") 

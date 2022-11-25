@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace App\Controllers;
 use App\Helpers\View;
 
@@ -12,10 +13,12 @@ class IndexController
         "PEDI" => "Pediatria"
     ];   
 
-    public function index()
+    public function index( bool $isEsp = false)
     {       
         View::load('index', [
-            "especialidades" => $this->especialidades
+            "especialidades" => $this->especialidades,
+            "role" => $isEsp ? "esp" : "urg",
+            "isEsp" => $isEsp
         ]);
     }
 }

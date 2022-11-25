@@ -36,6 +36,7 @@ function initializeSession() {
 		resolution: '1280x720',
 		height: "100%",
 		width: "100%",
+		mirror: false
 	};
 	__publisher = OT.initPublisher('publisher', publisherOptions, handleError);
 

@@ -20,16 +20,50 @@
 
     <div id="button-container" class="sticky-top">
       <a x-data 
-        :href="'<?= \App\App::config("project_path") ?>' + `/urg/reunion/${$store.selectedEsp ? $store.selectedEsp.toLowerCase() : ''}`" 
+        :href="'<?= \App\App::config("project_path") . "/{$role}" ?>' + `/reunion/${$store.selectedEsp ? $store.selectedEsp.toLowerCase() : ''}`" 
         class="btn btn-sm btn-dark m-2">Reunion</a>
     </div>
 
     <div class="p-2 container m-auto">
       <div x-data="listInterconsultas" class="d-grid" style="grid-template-columns: repeat(auto-fill, minmax(450px, 1fr)); grid-gap: 2rem;">
+        <template x-teleport="#button-container">
+          <div class="d-inline-block">
+            <div class="form-check form-check-inline p-1 bg-white rounded shadow-sm">
+              <input class="form-check-input m-1 p-1" type="checkbox" x-model="types" id="type-pendiente" value="PENDIENTE">
+              <label class="form-check-label small" for="type-pendiente">Pendientes</label> 
+            </div>
+            <div class="form-check form-check-inline p-1 bg-success text-light rounded shadow-sm">
+              <input class="form-check-input m-1 p-1" type="checkbox" x-model="types" id="type-revisado" value="REVISADO">
+              <label class="form-check-label small" for="type-revisado">Revisados</label>
+            </div>
+            <div class="form-check form-check-inline p-1 bg-dark text-light rounded shadow-sm">
+              <input class="form-check-input m-1 p-1" type="checkbox" x-model="types" id="type-cancelado" value="CANCELADO">
+              <label class="form-check-label small" for="type-cancelado">Cancelados</label>
+            </div>
+          </div>
+        </template>
+
         <template x-for="int in sortInterconsultasByEstado($store._interconsultas)" :key="int.id">
           <!-- Listado de interconsultas -->
-          <div 
-            class="small rounded border-bottom border-5" :class="getClass(int.estado)" style="background-color: white;">
+          <div class="small rounded border-bottom border-5" :class="getClass(int.estado)">
+            <?php if ($isEsp): ?>
+              <!-- Radio Inputs de los estados -->
+              <div class="d-flex px-sm-4 justify-content-between p-2 flex-wrap small border-bottom border-1 border-dark">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" value="REVISADO" x-model="int.estado" :name="`${int.id}`" :id="`rev-${int.id}`">
+                  <label class="form-check-label small" :for="`rev-${int.id}`">REVISADO</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" value="PENDIENTE" x-model="int.estado" :name="`${int.id}`" :id="`pen-${int.id}`">
+                  <label class="form-check-label small" :for="`pen-${int.id}`">PENDIENTE</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" value="CANCELADO" x-model="int.estado" :name="`${int.id}`" :id="`can-${int.id}`">
+                  <label class="form-check-label small" :for="`can-${int.id}`">CANCELADO</label>
+                </div>
+              </div>
+            <?php endif ?>
+
             <!-- Paciente -->
             <div class="d-grid p-1 border-bottom border-secondary border-1 mb-2" style="grid-template-columns: 1fr 1fr;">
               <div class="p-2 border-end border-1 border-secondary">
@@ -49,6 +83,7 @@
                 </template>
               </div>
             </div>
+
             <!-- Interconsulta -->
             <div class="pt-1 p-3">
               <span class="small">Fecha:</span>
@@ -68,6 +103,6 @@
   </main>
   <?php require __DIR__ . "/partials/footer.php" ?>
   <script src="<?= \App\Helpers\Assets::load("libs/jquery/jquery.js") ?>"></script>
-  <script type="module" src="<?= \App\Helpers\Assets::load("js/solicitar-interconsulta.js") ?>"></script>
+  <script type="module" src="<?= \App\Helpers\Assets::load("js/index.js") ?>"></script>
 </body>
 </html>

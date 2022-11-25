@@ -60,6 +60,6 @@
   </script>
   <script src="<?= \App\Helpers\Assets::load("libs/jquery/jquery.js") ?>"></script>  
   <script src="<?= \App\Helpers\Assets::load("js/scripts/meeting.js") ?>"></script>
-  <script type="module" src="<?= \App\Helpers\Assets::load("js/meeting-esp.js") ?>"></script>
+  <script type="module" src="<?= \App\Helpers\Assets::load("js/meeting.js") ?>"></script>
 </body>
 </html>

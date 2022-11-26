@@ -24,14 +24,14 @@ $router->get("/ex", function() {
 $router->get("/esp", fn() => (new \App\Controllers\IndexController)->index(true));
 $router->get(
     "/esp/reunion/(\w+)", 
-    fn(string $esp) => (new \App\Controllers\MeetingController)->index($esp, "meeting/especialista") 
+    fn(string $esp) => (new \App\Controllers\MeetingController)->index($esp, true) 
 );
 
 // Urgencias
 $router->get("/urg", fn() => (new \App\Controllers\IndexController)->index(false));
 $router->get(
     "/urg/reunion/(\w+)", 
-    fn(string $esp) => (new \App\Controllers\MeetingController)->index($esp, "meeting/urgencias") 
+    fn(string $esp) => (new \App\Controllers\MeetingController)->index($esp, false) 
 );
 
 /* ------------------------------------------------------------------------

@@ -59,7 +59,7 @@ class View
         );
     }
     
-    public static function error($e)
+    public static function error(\Throwable $e)
     {
         $error = [
             'Codigo' => $e->getCode(),

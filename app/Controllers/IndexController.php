@@ -5,13 +5,12 @@ use App\Helpers\View;
 
 class IndexController
 {
-     private array $especialidades = [
-        "NUTR" => "Nutricion", 
-        "ODMX" => "Odontologia Maxilofacial", 
-        "OTOR" => "Otorrino Laringologia", 
-        "OPTO" => "Optometria", 
-        "PEDI" => "Pediatria"
-    ];   
+    private array $especialidades = [
+        "ORTO" => "Ortopedia", 
+        "NEUR" => "Neurologia", 
+        "CPL" => "Cirugia Plastica", 
+        "RAD" => "Radiologia"
+    ];
 
     public function index( bool $isEsp = false)
     {       

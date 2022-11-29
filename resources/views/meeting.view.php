@@ -7,9 +7,10 @@
   <?php require __DIR__ . "/partials/favicons.php" ?>
   <link rel="stylesheet" href="<?= \App\Helpers\Assets::load("libs/bootstrap/css/bootstrap.min.css") ?>">
 	<script src='https://8x8.vc/external_api.js'></script>
-  <title>Reunion</title>
+  <title>Reunion <?= strtoupper($especialidad) ?></title>
 </head>
 <body>
+  <?php require __DIR__ . "/partials/loader.php" ?>
 	<main class="container-fluid d-grid vh-100 m-0 p-0 overflow-hidden" style="grid-template-columns: 9fr 3fr; gap: 0;">
 		<div class="bg-dark">
 			<div id="meet" class="h-100"></div>
@@ -25,8 +26,10 @@
 	</main>
 	<script type="text/javascript">
 		const jwt 		 = '<?= $token ?>';
-		const roomName = '<?= \App\App::config("jaas")["APP_ID"] ?>/test';
-	</script>	
-	<script type="text/javascript" src="<?= \App\Helpers\Assets::load('js/meeting/jaasConfig.js')?>"></script>
+		const roomName = '<?= \App\App::config("jaas")["APP_ID"] ?>/<?= $especialidad ?>';
+		const especialista = <?= $esp ? 'true' : 'false' ?>
+	</script>
+  <script src="<?= \App\Helpers\Assets::load("libs/jquery/jquery.js") ?>"></script>
+	<script type="module" src="<?= \App\Helpers\Assets::load('js/meeting/jaasConfig.js')?>"></script>
 </body>
 </html>

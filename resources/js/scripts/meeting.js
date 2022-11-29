@@ -1,11 +1,14 @@
 "use strict";
+const loader = $("#loader");
 var session;
 var __publisher;
 var __control = {
-	"audio": false,
+	"audio": true,
 	"video": false,
 	"fullscreen": false 
 };
+
+loader.toggle();
 initializeSession();
 
 function toggleFullScreen() {
@@ -40,7 +43,7 @@ function initializeSession() {
 		mirror: false,
 		width: "100px",
 		height: "100px",
-		publishAudio:false,
+		publishAudio:true,
 		publishVideo:false,
 		showControls: false,
 		insertMode: "append",
@@ -48,6 +51,7 @@ function initializeSession() {
 		preferredFrameRate: 20
 	};
 	__publisher = OT.initPublisher('publisher', publisherOptions, handleError);
+	__publisher.on('streamCreated', () => loader.hide());
 
 	session.connect(token, function(error) {
 		if (error) {

@@ -12,7 +12,9 @@ class MeetingController
 	{
 		try {
 			View::load("meeting", [
-				"token" => (new JaasJWTService)->generate($espCod, $isEsp)
+				"esp" => $isEsp,
+				"token" => (new JaasJWTService)->generate($espCod, $isEsp),
+				"especialidad" => $espCod,
 			]);
 		} catch (\Throwable $e) {
 			View::error($e);
@@ -27,10 +29,10 @@ class MeetingController
 			}
 			$ms = new ManageMeetingService($espId);
 			$datos = [ 
-				"apiKey" => \App\App::config("opentok")["API_KEY"],
-            	"especialidad" => $espCod,
-            	"sessionId" => $ms->getSessionId(),
             	"token" => $ms->getToken(),
+				"apiKey" => \App\App::config("opentok")["API_KEY"],
+            	"sessionId" => $ms->getSessionId(),
+            	"especialidad" => $espCod,
             ];
 
             View::load($view, $datos);

@@ -21,7 +21,10 @@
     <div id="button-container" class="sticky-top">
       <a x-data 
         :href="'<?= \App\App::config("project_path") . "/{$role}" ?>' + `/reunion/${$store.selectedEsp ? $store.selectedEsp.toLowerCase() : ''}`" 
-        class="btn btn-sm btn-dark m-2">Reunion</a>
+        class="btn btn-sm btn-dark m-2">Reuni&oacute;n</a>
+      <a x-data 
+        :href="'<?= \App\App::config("project_path") . "/{$role}" ?>' + `/ot/reunion/${$store.selectedEsp ? $store.selectedEsp.toLowerCase() : ''}`" 
+        class="btn btn-sm btn-dark m-2">Reuni&oacute;n Opci&oacute;n OpenTok</a>
     </div>
 
     <div class="p-2 container m-auto">

@@ -28,7 +28,7 @@ $router->get(
 );
 $router->get(
     "/esp/ot/reunion/(\w+)", 
-    fn(string $esp) => (new \App\Controllers\MeetingController)->openTok($esp, "meeting/especialista") 
+    fn(string $esp) => (new \App\Controllers\MeetingController)->openTok($esp, "openTok-meeting") 
 );
 
 // Urgencias
@@ -39,7 +39,7 @@ $router->get(
 );
 $router->get(
     "/urg/ot/reunion/(\w+)", 
-    fn(string $esp) => (new \App\Controllers\MeetingController)->openTok($esp, "meeting/urgencias") 
+    fn(string $esp) => (new \App\Controllers\MeetingController)->openTok($esp, "openTok-meeting") 
 );
 
 /* ------------------------------------------------------------------------

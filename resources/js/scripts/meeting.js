@@ -1,16 +1,21 @@
 "use strict";
 var session;
 var __publisher;
+var __control = {
+	"audio": false,
+	"video": false,
+	"fullscreen": false 
+};
 initializeSession();
 
 function toggleFullScreen() {
 	if (!document.fullscreenElement) {
 		document.documentElement.requestFullscreen();
-		$("#e-fullscreen-i, #fullscreen-i").toggleClass("d-none")
+		$("#fullscreen").toggleClass("bi-fullscreen bi-fullscreen-exit");
 	} else {
 		if (document.exitFullscreen) {
 			document.exitFullscreen();
-			$("#e-fullscreen-i, #fullscreen-i").toggleClass("d-none")
+			$("#fullscreen").toggleClass("bi-fullscreen bi-fullscreen-exit");
 		}
 	}
 }
@@ -19,24 +24,28 @@ function initializeSession() {
 	 session = OT.initSession(apiKey, sessionId);
 
 	session.on('streamCreated', function(event) {
-		session.subscribe(event.stream, 'subscriber', {
-			insertMode: especialista ? "replace" : "append",
-			height: "100%",
+		session.subscribe(event.stream, 'sub', {
 			width: "100%",
+			height: "100%",
+			insertMode: "append",
 			preferredFrameRate: 20
 		}, handleError);
 	});
 
-	const publisherOptions = especialista ? {
+	session.on('streamPropertyChanged ', function(event) {
+		$("#loader").hide();
+	});
+
+	const publisherOptions = { 
+		mirror: false,
+		width: "100px",
+		height: "100px",
+		publishAudio:false,
 		publishVideo:false,
-		publishAudio:true,
-		height: 100,
-		width: 100,
-	} : { 
+		showControls: false,
+		insertMode: "append",
 		resolution: '1280x720',
-		height: "100%",
-		width: "100%",
-		mirror: false
+		preferredFrameRate: 20
 	};
 	__publisher = OT.initPublisher('publisher', publisherOptions, handleError);
 
@@ -44,14 +53,32 @@ function initializeSession() {
 		if (error) {
 			handleError(error); 
 		} else {
-		  	 session.publish(__publisher, handleError);
+			session.publish(__publisher, handleError);
 		}
-
 	});
 } 
 
 function toggleCamera() {
 	__publisher.cycleVideo();
+}
+
+function toggleVideo() {
+	$("#loader").toggle();
+	__control.video = !__control.video;
+	if (__control.video) {
+		__publisher.element.style.width = "200px";
+		__publisher.element.style.height = "200px";
+	} else {
+		__publisher.element.style.width = "100px";
+		__publisher.element.style.height = "100px";
+	}
+	__publisher.publishVideo( __control.video ); 
+}
+
+function toggleAudio() {
+	$("#loader").toggle();
+	__control.audio = !__control.audio;
+	__publisher.publishAudio( __control.audio ); 
 }
 
 function disconnectSession() {

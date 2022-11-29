@@ -7,7 +7,7 @@ use Nowakowskir\JWT\TokenDecoded;
 
 class JaasJWTService 
 {
-	public function generate(string $especialidad, bool $isEsp)
+	public function generate(string $especialidad, bool $isEsp): string
 	{
 		$payload = [
 			'iss' => 'chat',
@@ -18,7 +18,7 @@ class JaasJWTService
 		    'sub' => \App\App::config('jaas')['APP_ID'],
 		    'context' => [
 		        'user' => [
-		            'moderator' => "true",
+		            'moderator' => "false",
 		            'name' => $isEsp ? "Especialista {$especialidad}" : "Urgencias",
 		        ],
 		        'features' => [
@@ -39,17 +39,17 @@ class JaasJWTService
 	    try {
 		    $tokenDecoded = new TokenDecoded($payload, $header);
 		    if (! $privateKey = file_get_contents(__DIR__ . '/../../jaas.key')) {
-		    	return "sd";
+		    	throw new \RuntimeException("No se ha podido encontrar la credencial.") ;
 		    }
-		    if (! $publicKey = file_get_contents(__DIR__ . '/../../jaasauth.key.pub')) {
-		    	return "sd";
+		    if (! $publickey = file_get_contents(__dir__ . '/../../jaasauth.key.pub')) {
+		    	throw new \RuntimeException("No se ha podido encontrar la credencial publica.") ;
 		    }
 
-		    $tokenEncoded = $tokenDecoded->encode( $privateKey, JWT::ALGORITHM_RS256);
+		    $tokenencoded = $tokenDecoded->encode( $privateKey, JWT::ALGORITHM_RS256);
 
-		    $tokenEncoded->validate($publicKey, JWT::ALGORITHM_RS256);
-		    return $tokenEncoded->toString();
-		} catch(\Exception $e) {
+		    $tokenencoded->validate($publickey, JWT::ALGORITHM_RS256);
+		    return $tokenencoded->tostring();
+		} catch(\exception $e) {
 			throw $e;
 		}
 	}

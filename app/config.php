@@ -48,5 +48,13 @@ return [
     "jaas" => [
         "API_KEY" => $_ENV["JAAS_API_KEY"],
         "APP_ID" => $_ENV["JAAS_APP_ID"],
+    ],
+
+    /**
+     * OpenTok Config
+     */
+    "opentok" => [
+        "API_KEY" => $_ENV["OPENTOK_API_KEY"],
+        "API_SECRET" => $_ENV["OPENTOK_API_SECRET"]
     ]
 ];

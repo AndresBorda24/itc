@@ -26,12 +26,20 @@ $router->get(
     "/esp/reunion/(\w+)", 
     fn(string $esp) => (new \App\Controllers\MeetingController)->index($esp, true) 
 );
+$router->get(
+    "/esp/ot/reunion/(\w+)", 
+    fn(string $esp) => (new \App\Controllers\MeetingController)->openTok($esp, "meeting/especialista") 
+);
 
 // Urgencias
 $router->get("/urg", fn() => (new \App\Controllers\IndexController)->index(false));
 $router->get(
     "/urg/reunion/(\w+)", 
     fn(string $esp) => (new \App\Controllers\MeetingController)->index($esp, false) 
+);
+$router->get(
+    "/urg/ot/reunion/(\w+)", 
+    fn(string $esp) => (new \App\Controllers\MeetingController)->openTok($esp, "meeting/urgencias") 
 );
 
 /* ------------------------------------------------------------------------

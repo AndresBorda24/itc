@@ -1,0 +1,24 @@
+[x-cloak] {
+  display: none !important;
+}
+.op-button {
+  background-color: rgba(255, 255, 255, 0);
+  color: white; 
+  transition: all 200ms ease;
+}
+.op-button:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+  color: white; 
+}
+.op-button-active {
+  background-color: rgba(255, 255, 255, 1);
+  color: #131313; 
+}
+.pacientes-hover{
+  background-color: transparent;
+  color: #ececec;
+  text-align: left;
+}
+.pacientes-hover:hover {
+  background-color: #30373d !important;
+}

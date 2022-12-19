@@ -23,23 +23,19 @@ $router->get("/ex", function() {
 // Especialista
 $router->get("/esp", fn() => (new \App\Controllers\IndexController)->index(true));
 $router->get(
-    "/esp/reunion/(\w+)", 
-    fn(string $esp) => (new \App\Controllers\MeetingController)->index($esp, true) 
+    "/esp/(\w+)/reunion", 
+    fn(string $esp) => (new \App\Controllers\MeetingController)->reunion($esp)
 );
 $router->get(
-    "/esp/ot/reunion/(\w+)", 
-    fn(string $esp) => (new \App\Controllers\MeetingController)->openTok($esp, "openTok-meeting") 
+    "/esp/reunion/(\w+)", 
+    fn(string $esp) => (new \App\Controllers\MeetingController)->openTok($esp, "openTok-meeting", true) 
 );
 
 // Urgencias
 $router->get("/urg", fn() => (new \App\Controllers\IndexController)->index(false));
 $router->get(
     "/urg/reunion/(\w+)", 
-    fn(string $esp) => (new \App\Controllers\MeetingController)->index($esp, false) 
-);
-$router->get(
-    "/urg/ot/reunion/(\w+)", 
-    fn(string $esp) => (new \App\Controllers\MeetingController)->openTok($esp, "openTok-meeting") 
+    fn(string $esp) => (new \App\Controllers\MeetingController)->openTok($esp, "openTok-meeting", false) 
 );
 
 /* ------------------------------------------------------------------------

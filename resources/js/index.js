@@ -10,9 +10,8 @@ $(document).on("alpine:init", function() {
     Alpine.data("selectEspecialidad", selectEspecialidad);
     
     Alpine.data("listInterconsultas", () => ({
-        justPend: true,
-        types: ["PENDIENTE"],
-        today: new Date().toLocaleDateString('es-CO', { 
+        type: "P",
+        df: new Intl.DateTimeFormat('es-CO', { 
             weekday: 'long',
             year: 'numeric', 
             month: 'long', 
@@ -20,23 +19,30 @@ $(document).on("alpine:init", function() {
         }),
         /**  @param {array} int */
         sortInterconsultasByEstado( int ){
-            const t = { "PENDIENTE": 1, "REVISADO": 2, "CANCELADO": 3 };
+            const t = { "P": 1, "R": 2 };
             return int
-                .filter( el => this.types.includes(el.estado) )
-                .sort((i, y) => t[ i.estado ] - t[ y.estado ]);
+                .filter( el => (el.itc.estado == this.type) )
+                .sort((i, y) => t[ i.itc.estado ] - t[ y.itc.estado ]);
         },
         /** @param {string} estado */
         getClass( estado ){
             switch( estado ){ 
-                case "PENDIENTE": 
-                    return "border-secondary bg-white shadow";
-                case "CANCELADO":
-                    return "border-dark bg-opacity-25 shadow-sm bg-dark";
-                case "REVISADO":
+                case "P": 
+                    return "text-bg-dark text-light";
+                case "R":
                 default:
-                    return "bg-success bg-opacity-25 border-success shadow-sm";
+                    return "text-bg-success text-light";
             }
         },
+        /** @param {string} estado */ 
+        getEstadoText( estado ) {
+            switch( estado ){ 
+                case "P": 
+                    return "Pendiente";
+                case "R":
+                    return "Revisado";
+            }
+        }
     }));
 });
 

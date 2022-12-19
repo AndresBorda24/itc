@@ -7,6 +7,7 @@
   <?php require __DIR__ . "/partials/favicons.php" ?>
   <link rel="stylesheet" href="<?= \App\Helpers\Assets::load("libs/bootstrap/css/bootstrap.min.css") ?>">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="<?= \App\Helpers\Assets::load("css/open-tok-meeting.css") ?>">
   <script src="https://static.opentok.com/v2/js/opentok.min.js"></script>
   <title>Reunion</title>
 </head>
@@ -23,38 +24,7 @@
       ></div> 
 
       <!-- Botones Cambiar camara | pantalla Completa -->
-      <div class="position-absolute end-0 top-0 p-2 d-flex justify-content-around flex-column-reverse h-100 bg-dark bg-opacity-75" id="button-container" style="width: 50px; z-index: 1;">
-        <!-- Desconectar -->
-        <button class="btn btn-danger btn-sm p-2 pt-1" onclick="disconnectSession()">
-          <i class="bi bi-telephone-x-fill"></i>
-        </button>
-
-        <!-- Pantalla completa -->
-        <button class="btn btn-sm btn-primary p-2 pt-1" onclick="toggleFullScreen()">
-          <i class="bi bi-fullscreen" id="fullscreen"></i>
-        </button>
-
-        <!-- Camara -->
-        <button class="btn btn-light btn-sm p-0 py-1" onclick="toggleCamera()">
-          <img src="<?= \App\Helpers\Assets::load("images/icons/flip-camera.png") ?>" height="25" width="25">
-        </button>
-
-        <!-- Iniciar / Detener video -->
-        <button x-data="{ active: __control.video }" 
-        :class="{ 'btn-outline-warning': !active, 'btn-success': active  }"
-        class="btn btn-sm p-2 pt-1" 
-        @click="() => { toggleVideo(); active = !active }">
-          <i class="bi" :class="{'bi-camera-video-off-fill': !active, 'bi-camera-video-fill': active }"></i>
-        </button>
-
-        <!-- Iniciar / Detener Audio -->
-        <button x-data="{ active: __control.audio }" 
-        :class="{ 'btn-outline-warning': !active, 'btn-success': active }" 
-        class="btn btn-sm p-2 pt-1" 
-        @click="() => { toggleAudio(); active = !active }">
-          <i class="bi" :class="{'bi-mic-mute-fill': !active, 'bi-mic-fill': active }"></i>
-        </button>
-      </div>
+      <?php require __DIR__ . '/partials/buttons-opentok.php' ?>
     </div>
 
     <!-- Logo de asotrauma -->
@@ -74,7 +44,7 @@
     var token        = "<?= $token ?>";
     var apiKey       = "<?= $apiKey ?>";
     var sessionId    = "<?= $sessionId ?>";
-    var especialista = false;
+    var especialista = <?= $esp ? 'true' : 'false' ?>;
   </script>
   <script src="<?= \App\Helpers\Assets::load("libs/jquery/jquery.js") ?>"></script>  
   <script src="<?= \App\Helpers\Assets::load("js/scripts/meeting.js") ?>"></script>  

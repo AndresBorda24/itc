@@ -1,0 +1,16 @@
+:root { --breakpoint: 'unset';}
+@media screen and (min-width: 567px) {
+  :root { --breakpoint: 'sm'; }
+}
+@media screen and (min-width: 768px) {
+  :root { --breakpoint: 'md'; }
+}
+@media screen and (min-width: 992px) {
+  :root { --breakpoint: 'lg'; }
+}
+@media screen and (min-width: 1200px) {
+  :root { --breakpoint: 'xl'; }
+}
+@media screen and (min-width: 1400px) {
+  :root { --breakpoint: '2xl'; }
+}

@@ -8,6 +8,7 @@
     "require": {
         "bramus/router": "~1.6",
         "vlucas/phpdotenv": "^5.5",
-        "nowakowskir/php-jwt": "^2.1"
+        "nowakowskir/php-jwt": "^2.1",
+        "opentok/opentok": "^4.11"
     }
 }

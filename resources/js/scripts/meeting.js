@@ -8,8 +8,8 @@ var __control = {
 	"fullscreen": false 
 };
 
-loader.toggle();
-initializeSession();
+// loader.toggle();
+// initializeSession();
 
 function toggleFullScreen() {
 	if (!document.fullscreenElement) {
